@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Signup</title>
+        <meta charset="UTF-8" />
+
+        <link rel="stylesheet" href="../template.css"/>
+
+
+        <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
+
+        <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="authentication.js" defer></script>
+        <style>
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 50px;
+                
+                
+            }
+            
+    
+            .selectize-control, label, input, textarea, select {
+                display: block;
+                width: 100%;
+                max-width: 400px;
+                margin-bottom: 25px;
+            }
+    
+            label{
+                margin-bottom: 10px;
+            }
+    
+            #total_time{
+                width: 10%;
+                line-height: 18px;
+                padding: 8px;
+                font-size: 13px;
+                margin-right: 5px;
+            }
+    
+            textarea{
+                height: 150px;
+            }
+    
+            #time_box{
+                display: flex;
+                flex-direction: row;
+                align-items: left; 
+                width: 100%; 
+                max-width: 400px;
+                line-height: 2.5;
+            }
+    
+            label {
+                font-weight: bold;
+            }
+    
+            input[type="submit"] {
+                width: auto;
+                margin-top: 30px;
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+    
+            .image_preview {
+                display: none;
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+    
+            .image_preview img {
+                max-width: 100%;
+            }
+
+            .contain{
+                padding: 5%;    
+                width: 110%; 
+                background-color: #f7f5e4;
+            }
+
+            .introBreak{
+                width: 30%;
+                margin-left: -.5%;
+                border: 4px solid #c6a559;
+                opacity: .8;
+            }
+
+            .number{
+                padding-left:.9em;
+                padding-right:.9em;
+                padding-top:.45em;
+                padding-bottom:.45em;
+                border-radius: 50%;
+                font-size: .9em;
+                border: 0px solid #000;
+                background-color: #c6a559;
+                font-family: copyright Klim Type Foundry;
+                font-weight: bold;
+            }
+
+            .title{
+                font-size: 1.5em;
+                font-family: copyright Klim Type Foundry;
+                font-weight: bold;
+            }
+
+
+            .selectize-input{
+                border: 2px solid black !important;
+                background: #fffef7 !important;
+                display: inline-block;
+                width: 25em;
+                position: relative;
+                z-index: 1;
+                box-shadow:inset 0px;
+                border-radius: 0% !important;
+                box-shadow: inset 0px !important;
+                font-family: GT eesti display trial !important;
+                text-decoration: none !important;
+                color: black !important;
+                padding: 1.5em;
+            }
+
+            input{
+                border: 2px solid black !important;
+                background: #fffef7 !important;
+                width: 200%;
+                box-shadow:inset 0px;
+                border-radius: 0% !important;
+                font-family: GT eesti display trial !important;
+                color: black !important;
+                padding: 1.5em;
+                margin-top: 15%;
+            }
+
+            input::placeholder {
+                color: #7a7a7a;
+                font-size: 1.1em;
+                opacity: .8;
+                width: 100%;
+                border-bottom: 5px solid #f8f1e0;
+            }
+
+            .submitButton{
+                font-family: GT eesti display trial;
+                font-size: 1em;
+                padding: .5% !important;
+                border: 1px #c6a559 solid !important;
+                color: #fffef7;
+                background: #c6a559;
+                width: 5%;
+                border-radius: 0px !important;
+                text-transform: uppercase;
+                margin-top: 1% !important;
+                margin-bottom: 1%;
+                margin-left: -2.5%;
+            }
+
+        </style>
+    </head>
+    <body>
+
+<header>
+      <!-- Navbar -->
+      <div class="navContainer">
+          <a href="../index.html"><img src="./images/logo.png" class= "logo" 
+          style="margin-left: 10%; width:10%; filter: drop-shadow(1.5px 2.5px 0px rgba(0,0,0,0.15));"></a>
+          
+          <div style="margin-left: 23%; margin-top: 6%; display: inline-block;">
+              <a href="" class="navButton"><b>JOIN NOW</b></a>
+              <a href="login.php" class="navButton"><b>LOG IN</b></a>
+              <a href="../index.html" class="navButton"><b>VIEW OUR PLANS</b></a>
+              <a href="../index.html" class="navButton"><b>OUR FAVORITES</b></a>
+
+          <a href="login.php"><img src="./images/myAccount.png" class= "logo" 
+            style="margin-top: -0.8%; margin-left: 5%; height:5%; filter: drop-shadow(.7px .7px 0px rgba(0,0,0,0.15));"></a>
+          <a href=""><img src="./images/searchIngredients.png" class= "logo" 
+            style="margin-top: -0.75%; margin-left: 15%; height:5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+        </div>
+        
+      </div>
+    </header>
+    
+      <div class="contain" style="margin-top: 10%;">
+        <div style="margin-left: 4.6% !important; width: 55%;">
+            <h1 style="font-family: copyright Klim Type Foundry; margin-bottom:.5%; font-size: 3em;">
+            <b>Sign Up</b></h1><br>
+            <span style="font-family:Britannic Bold; font-size: 1.5em;">SOUS-CHEF</span>  
+            <span style="font-family: copyright Klim Type Foundry;  font-size: 1.5em;">
+            — your best culinary partner that serves up endless recipe ideas.</span><br><br>
+            <hr class="introBreak">        
+            <p style="font-family: GT eesti display trial; text-transform: uppercase; font-size: 1.15em;"></p>
+
+        </div>
+            
+        <div style="margin-left: -59% !important">
+           <form id="signup" action="signup_process.php" method="post" novalidate>
+            <div>
+                <label for="name"><span class="number">1</span>  
+                <span class="title"> &nbsp;Your Name: </span></label>
+                <input type="text" id="name" name="name" />
+            </div><br><br>
+
+            <div>
+                <label for="email"><span class="number">2</span>  
+                <span class="title"> &nbsp;Your Email: </span></label>
+                <input type="email" id="email" name="email" />
+            </div><br><br>
+
+            <div>
+                <label for="password"><span class="number">3</span>  
+                    <span class="title"> &nbsp;Password: </span></label>
+                <input type="password" id="password" name="password" />
+            </div><br><br>
+
+            <!-- <div style="margin-left:4.5%;"> -->
+            <div>
+                <label for="password_confirm"><span class="number">4</span>  
+                    <span class="title"> &nbsp;Confirm: </span></label>
+                <input style="margin-top: 10% !important;"
+                    type="password"
+                    id="password_confirm"
+                    name="password_confirmation"/>
+            </div><br><br>
+
+            
+            <br><button class="submitButton"><b>Sign up</b></button>
+        </div>
+
+        </form>
+    </div>
+
+
+    <div class="footer" style="z-index:0; background-color: #fffef7;">
+        <div class="bottomFooter">
+          <img src="../images/logo.png" class="footerLogo"
+          style="width:10em; filter: drop-shadow(1.5px 2.5px 0px rgba(0,0,0,0.15));">
+          <!-- filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.15)); -->
+      </div>
+        <div class="mainFooter" style="margin-top: -3%;">
+            <div style="margin-top: 6%; display: inline-block;">
+              <a href="" class="navButton"><b>MANAGE ACCOUNT</b></a>
+              <a href="" class="navButton"><b>RECIPE HUB</b></a>
+              <a href="#plans" class="navButton"><b>SEARCH RECIPES</b></a>
+              <a href="#plans" class="navButton"><b>INGREDIENTS SEARCH</b></a>
+              <a href="#aboutUs" class="navButton"><b>ABOUT US</b></a>
+           </div>
+        </div> <br>
+        <div class="bottomFooter">
+          <div class="footerCol">
+            <div class="footer-icons">
+                <img src="../images/fbLogo.png"
+                style="width:2.5em; opacity: 0.9;">
+                <img src="../images/igLogo.png" 
+                style="width:2.5em; opacity: 0.9;">
+                <img src="../images/pinterestLogo.png" 
+                style="width:2.5em; opacity: 0.9;">
+                <img src="../images/twitterLogo.png" 
+                style="width:2.5em; opacity: 0.9;">
+            </div>
+          </div>
+        </div>
+    
+        <div class="bottomFooter copyright">
+            <h4 style="text-align: center; font-family: GT eesti display trial; font-size: .6em;">
+              COPYRIGHT 2023 - SOUS-CHEF LLC. <br>
+              ALL RIGHTS RESERVED.</h4>
+        </div>
+    </div>
+
+
+        <script>
+            $(document).ready(function(){
+                $("select").selectize($('option'));
+            });
+    </script>
+    </body>
+</html>

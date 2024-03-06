@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Recipe Search</title>
+    <link rel="stylesheet" href="../template.css">
+    <style>
+        html, body{
+            height: 100%;
+            overflow:auto;
+            text-align: center;
+            background-color: #fffef7;
+        }
+
+		#user_search {
+			padding: 10px;
+			margin-bottom: 5%;
+			width: 200%;
+			border-radius: 5px;
+			border: 0px solid #fffef7;
+            background-color: #fffef7;
+            font-size: 1.5em;
+            font-family: ITC Cheltenham STD;
+            color: #c6a559;
+            font-style: italic;
+            margin-left: -55%;
+            display: inline-block;
+		}
+
+        input::placeholder {
+            color: #7a7a7a;
+            font-size: 1em;
+            opacity: .8;
+            border-bottom: 5px solid #f8f1e0;
+        }
+
+        input:focus {
+            outline-width: 0;
+        }
+
+		#search_button {
+			padding: .5em;
+			color: black;
+			font-size: 1em !important;
+			cursor: pointer;
+            border: black 0px solid;
+            background-color: #fffef7;
+            font-size: 1em;
+            font-family: GT eesti display trial;
+            font-weight: bolder;
+            display: inline-block;
+		}
+
+        #search_button:hover {
+            /* filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.15)); */
+            transform: 1%, 1%;
+		}
+
+        #recipe_search{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin:10%;
+            width: 100%;
+            /* text-shadow: 2px 3px 0px rgba(0,0,0,0.15); */
+        }
+
+		#results {
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 30px;
+			justify-content: center;
+		}
+    
+
+		.recipe {
+			width: 30%;
+            /* height: 35%; */
+			margin-bottom: 3%;
+			/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+			overflow: hidden;
+            align-items: center !important;
+            align-content: center !important;
+            text-align: center !important;
+		}
+
+		div.h2 {
+			font-size:1.5em;
+            font-family: copyright Klim Type Foundry; 
+			color: black;
+            margin: auto;
+            padding: 8%;
+            max-width: 10em;
+            min-height: 3em;
+		}
+
+        div.h2:hover {
+            text-decoration: underline solid 5px #f4e9ce;
+            cursor: pointer;
+		}
+
+
+		.recipe img {
+            width: 12em; /* width of container */
+            height: 12em; /* height of container */
+            object-fit: cover;
+            object-position: 50% 10%; 
+            filter: brightness(1.3);	
+            filter: opacity(80%);
+            filter: saturate(140%);
+            border-radius: 50%;
+            display: inline-block;
+            border: #f8f1e0 solid .5em;
+            filter: drop-shadow(2px 3px 0px #c6a559c0);
+            /* margin-left: -.5%; */
+        }
+
+        .recipe img:hover{
+            border: #c6a559 solid .5em;
+            filter: drop-shadow(2px 3px 0px black);
+        }
+        
+
+        #page{
+            display: flex;
+            margin-top: 5%;
+        }
+
+        #search_criteria{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 60%;        
+            margin-bottom: 2%;    
+        }
+
+        .search_options{
+            width: 40%;
+            padding: 2%;
+            font-size: 1.5em;
+            font-family: GT eesti display trial !important;
+            text-decoration: none !important;        
+        }
+
+
+        option{
+            border: 2px solid black;
+            background-color: #fffef7;
+            font-family: GT eesti display trial !important;
+            text-decoration: none !important;
+            color: black !important;
+        }
+
+        #open_recipe_button{
+            background-color: #fffef7;
+            border: none;
+        }
+
+        .selectize-input{
+            border: 2px solid black !important;
+            background: #fffef7 !important;
+            padding: 8px 8px;
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            box-shadow:inset 0px;
+            border-radius: 0% !important;
+            box-shadow: inset 0px !important;
+            font-family: GT eesti display trial !important;
+            text-decoration: none !important;
+            color: black !important;
+        }
+
+
+        .selectize-input:hover{
+            border: 2px solid #c6a559 !important;
+        }
+
+
+        div.ingredientsText{
+            font-family: GT eesti display trial !important;
+            color: black;
+            text-transform: lowercase;
+            font-size: 1.1em;
+            width:15em;
+            text-align: center !important;
+            font-style: italic;
+        }
+
+        #show_more{
+          font-family: GT eesti display trial;
+          font-size: 1em;
+          padding: .5% !important;
+          border: 1px #c6a559 solid !important;
+          color: #fffef7;
+          background: #c6a559;
+          width: 15%;
+          border-radius: 0px !important;
+          text-transform: uppercase;
+        }
+
+        .error{
+          font-family: GT eesti display trial;
+          font-size: 2em;
+          margin-bottom: 5%;
+        }
+    </style>
+        
+        <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+    <body>
+       
+        <header>
+            <!-- Navbar -->
+            <div class="navContainer" style="z-index:100;">
+                <a href="index.php"><img src="../images/logo.png" class= "logo" 
+                style=" margin-left: 10%; width:10%; filter: drop-shadow(1.5px 2.5px 0px rgba(0,0,0,0.15));"></a>
+                
+                <div style="margin-top: 6%; display: inline-block; width: 100%;">
+                    
+                <a href="account.php"><img src="../images/myAccount.png" class= "logo" 
+                    style="margin-top: -0.8%; margin-left: -26%; height:4.5%; filter: drop-shadow(.7px .7px 0px rgba(0,0,0,0.15));"></a>    
+                <a href="RecipeBook.php"><img src="../images/favoritesIcon.png" class= "logo" 
+                    style="margin-top: -0.8%; margin-left: -16%; height:4.5%; filter: drop-shadow(.7px .7px 0px rgba(0,0,0,0.15));"></a>
+                <a href="#here"><img src="../images/searchIcon2.png" class= "logo" 
+                    style="margin-top: -0.75%; margin-left: -6%; height:4.5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+                <a href="IngredientSearch.php"><img src="../images/searchIngredients.png" class= "logo" 
+                    style="margin-top: -0.75%; margin-left: 5%; height:4.5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+                <a href="MakeRecipe.html"><img src="../images/makeRecipes.png" class= "logo" 
+                    style="margin-top: -0.75%; margin-left: 20%; height:4.5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+                
+                    <div style="margin-left: 73%; margin-top: -.1%;">
+                    <a href="logout.php" class="navButton"><b>SIGN OUT</b></a>
+                    </div>
+            </div>
+            
+            </div>
+        </header>
+
+        <div id="page">
+            <div id="recipe_search">
+                <h1 style="text-align: center;
+                font-family: copyright Klim Type Foundry;">
+                Search to browse through our recipes!</h1>
+            
+                <div style="text-align:center;">
+                    <div>
+                        <input type="text" id="user_search" class="searchText" 
+                        placeholder="What are you looking for? 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;">
+                    </div>
+                </div>
+    
+                <div id="search_criteria">
+                    <select multiple class="search_options" id="meal_type" name="meal_type" placeholder="MEAL TYPE">
+                    <option class="selectize-input" value=""></option>
+                        <option value="Main Course">Main Course</option>
+                        <option value="Side Dish">Side Dish</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Appetizer">Appetizer</option>
+                        <option value="Salad">Salad</option>
+                        <option value="Bread">Bread</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Soup">Soup</option>
+                        <option value="Beverage">Beverage</option>
+                        <option value="Sauce">Sauce</option>
+                        <option value="Marinade">Marinade</option>
+                        <option value="Fingerfood">Fingerfood</option>
+                        <option value="Snack">Snack</option>
+                        <option value="Drink">Drink</option>
+                    </select>
+
+                    <select multiple class="search_options" id="cuisine" name="cuisine" placeholder="CUISINE TYPE">
+                        <option value="African">African</option>
+                        <option value="American">American</option>
+                        <option value="British">British</option>
+                        <option value="Cajun">Cajun</option>
+                        <option value="Caribbean">Caribbean</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Eastern European">Eastern European</option>
+                        <option value="European">European</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                        <option value="Greek">Greek</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Irish">Irish</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Jewish">Jewish</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Latin American">Latin American</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Middle Eastern">Middle Eastern</option>
+                        <option value="Nordic">Nordic</option>
+                        <option value="Southern">Southern</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="Thai">Thai</option>
+                        <option value="Vietnamese">Vietnamese</option>
+                    </select>
+
+                    <select multiple class="search_options"  id="intolerances" name="intolerances" placeholder="INTOLERANCES">
+                        <option value="Dairy">Dairy</option>
+                        <option value="Egg">Egg</option>
+                        <option value="Gluten">Gluten</option>
+                        <option value="Peanut">Peanut</option>
+                        <option value="Seafood">Seafood</option>
+                        <option value="Grain">Grain</option>
+                        <option value="Shellfish">Shellfish</option>
+                        <option value="Soy">Soy</option>
+                        <option value="Sulfite">Sulfite</option>
+                        <option value="Tree Nut">Tree Nut</option>
+                        <option value="Wheat">Wheat</option>
+                        <option value="Sesame">Sesame</option>
+                    </select>
+                    <select multiple class="search_options" id="diets" name="diets" placeholder="DIETARY CHOICES">
+                        <option value="Gluten Free">Gluten Free</option>
+                        <option value="Ketogenic">Ketogenic</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
+                        <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Pescetarian">Pescetarian</option>
+                        <option value="Paleo">Paleo</option>
+                        <option value="Primal">Primal</option>
+                    </select>
+
+                    <div style="margin-top: -2.5%;">
+                        <button id="search_button" style="font-size: .9em !important;" onclick: "searchRecipes(1)">
+                            <img src="../images/searchButton.png" class="searchIcon"
+                            style="width:1.6em; filter: drop-shadow(1px 1px 0px #c6a559a6); 
+                            position: relative;">
+                            <!-- <p style="font-size: .8em; margin-top: -3%;"></p> -->
+                        </button>
+                    </div>
+
+                </div>
+                <div id="results"></div>
+                <button id = 'show_more' value="Show More Recipes" onclick='MoreRecipes()'>Show More Recipes</button>
+            </div>
+        </div>
+
+        <script>
+            const api_key = "577c8e10b78544e3a55361a053215741";
+            var offset = 0;
+            $(document).ready(function(){
+                $("select").selectize($('option'));
+                searchRecipes();
+                $("#search_button").click(searchRecipes);
+            });
+
+            function searchRecipes(){
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = "";
+                offset = 0;
+
+                var meal_types = "";
+                var cuisines = "";
+                var intolerances = "";
+                var diets = "";
+                var search = "";
+                
+                console.log($('#meal_type').val());
+                console.log($('#cuisine').val());
+                console.log($('#intolerances').val());
+                console.log($('#diets').val());
+
+                if($('#meal_type').val()){
+                    meal_types = "&type=" + $('#meal_type').val().join("&type=");
+                }
+                if($('#cuisine').val()){
+                    cuisines = "&cuisine=" + $('#cuisine').val().join(",");
+                }
+                if($('#intolerances').val()){
+                    intolerances = "&intolerances=" + $('#intolerances').val().join(",");
+                }
+                if($('#diets').val()){
+                    diets = "&diet=" + $('#diets').val().join(",");
+                }
+                if($('#user_search').val()){
+                    search = $('#user_search').val();
+                }
+
+                var request = `https://api.spoonacular.com/recipes/complexSearch?query=${search}&apiKey=${api_key}&number=18${meal_types}${cuisines}${intolerances}${diets}&fillIngredients=true`;
+                console.log(request);
+
+                fetch(request)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.totalResults == 0){
+                        var errorDiv = `<div class='error'>No recipies found!<br>Try loosening your search criteria</div>`;
+                        resultsDiv.innerHTML += errorDiv;
+                    }
+                    else{
+                        data.results.forEach(recipe =>{
+                        var ingredients = [];
+                        recipe.missedIngredients.forEach(ingredient =>{
+                            if (ingredients.length <=2){
+                                ingredients.push(ingredient.name);
+                            }
+                        });
+                        ingredients = ingredients.join(",&nbsp;");
+                        var recipeDiv = `<form class='recipe' action='RecipePage.php' method='post' enctype='multipart/form-data' target='_blank'><input type="hidden" name="recipe_id" value="${recipe.id}"><input type="hidden" name="recipe_name" value="${recipe.title}">
+                        <button type=submit id='open_recipe_button'><img src='${recipe.image}' ><div class="h2">${recipe.title}</div>
+                        <div class="ingredientsText">${ingredients}, etc.</div></button></form>`;
+                        resultsDiv.innerHTML += recipeDiv;
+                        });
+                    }
+                })
+                .catch(error => console.error(error));
+                console.log(offset);
+            }
+
+
+
+            function MoreRecipes(){
+                const resultsDiv = document.getElementById('results');
+                offset++;
+                var meal_types = "";
+                var cuisines = "";
+                var intolerances = "";
+                var diets = "";
+                var search = "";
+                
+                console.log($('#meal_type').val());
+                console.log($('#cuisine').val());
+                console.log($('#intolerances').val());
+                console.log($('#diets').val());
+
+                if($('#meal_type').val()){
+                    meal_types = "&type=" + $('#meal_type').val().join("&type=");
+                }
+                if($('#cuisine').val()){
+                    cuisines = "&cuisine=" + $('#cuisine').val().join(",");
+                }
+                if($('#intolerances').val()){
+                    intolerances = "&intolerances=" + $('#intolerances').val().join(",");
+                }
+                if($('#diets').val()){
+                    diets = "&diet=" + $('#diets').val().join(",");
+                }
+                if($('#user_search').val()){
+                    search = $('#user_search').val();
+                }
+
+                var request = `https://api.spoonacular.com/recipes/complexSearch?query=${search}&apiKey=${api_key}&number=18${meal_types}${cuisines}${intolerances}${diets}&fillIngredients=true&offset=${offset * 18}`;
+                console.log(request);
+
+                fetch(request)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.totalResults == 0){
+                        var errorDiv = `<div class='error'>'No recipies found!\nTry loosening your search criteria'</div>`;
+                        resultsDiv.innerHTML += errorDiv;
+                    }
+                    else{
+                        data.results.forEach(recipe =>{
+                        var ingredients = [];
+                        recipe.missedIngredients.forEach(ingredient =>{
+                            if (ingredients.length <=2){
+                                ingredients.push(ingredient.name);
+                            }
+                        });
+                        ingredients = ingredients.join(",&nbsp;");
+                        var recipeDiv = `<form class='recipe' action='RecipePage.php' method='post' enctype='multipart/form-data' target='_blank'><input type="hidden" name="recipe_id" value="${recipe.id}"><input type="hidden" name="recipe_name" value="${recipe.title}">
+                        <button type=submit id='open_recipe_button'><img src='${recipe.image}' ><div class="h2">${recipe.title}</div>
+                        <div class="ingredientsText">${ingredients}, etc.</div></button></form>`;
+                        resultsDiv.innerHTML += recipeDiv;
+                        });
+                    }
+                })
+                .catch(error => console.error(error));
+                
+            }
+        </script>
+
+        <div class="footer" style="z-index:0; background-color: #fffef7;">
+    <div class="bottomFooter">
+      <img src="./images/logo.png" class="footerLogo"
+      style="width:10em; filter: drop-shadow(1.5px 2.5px 0px rgba(0,0,0,0.15));">
+      <!-- filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.15)); -->
+  </div>
+    <div class="mainFooter" style="margin-top: -3%;">
+        <div style="margin-top: 6%; display: inline-block;">
+          <a href="./account.php" class="navButton"><b>MANAGE ACCOUNT</b></a>
+          <a href="./RecipeBook.php" class="navButton"><b>RECIPE HUB</b></a>
+          <a href="./search.html" class="navButton"><b>SEARCH RECIPES</b></a>
+          <a href="./IngredientSearch.php" class="navButton"><b>INGREDIENTS SEARCH</b></a>
+          <a href="./index.php" class="navButton"><b>ABOUT US</b></a>
+       </div>
+    </div> <br>
+    <div class="bottomFooter">
+      <div class="footerCol">
+        <div class="footer-icons">
+            <img src="./images/fbLogo.png"
+            style="width:2.5em; opacity: 0.9;">
+            <img src="./images/igLogo.png" 
+            style="width:2.5em; opacity: 0.9;">
+            <img src="./images/pinterestLogo.png" 
+            style="width:2.5em; opacity: 0.9;">
+            <img src="./images/twitterLogo.png" 
+            style="width:2.5em; opacity: 0.9;">
+        </div>
+      </div>
+    </div>
+
+    <div class="bottomFooter copyright">
+        <h4 style="text-align: center; font-family: GT eesti display trial; font-size: .6em;">
+          COPYRIGHT 2023 - SOUS-CHEF LLC. <br>
+          ALL RIGHTS RESERVED.</h4>
+    </div>
+</div>
+    <script>
+    $(document).ready(function() {
+      $.ajax({
+        url: "check_session.php",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+          if (response.status === "success") {
+            // Session variable is set, do nothing
+          } else {
+            // Session variable is not set, redirect to login page
+            window.location.href = "logout.php";
+          }
+        }
+      });
+    });
+  </script>
+    </body>
+</html>
