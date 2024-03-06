@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Your Recipe</title>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css">
+    <link rel="stylesheet" href="../template.css">
+    integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .selectize-control, label, input, textarea, select {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 25px;
+        }
+
+        label{
+            margin-bottom: 10px;
+        }
+
+        #total_time{
+            width: 10%;
+            line-height: 18px;
+            padding: 8px;
+            font-size: 13px;
+            margin-right: 5px;
+        }
+
+        textarea{
+            height: 8em;
+            width: 25em;
+            font-family: GT eesti display trial;
+            font-size: .9em;
+            padding: 1.5%;
+            border:1.5px black solid;
+            background-color: #fffef7;
+            box-shadow: 0px 0px .5px .5px rgba(0, 0, 0, 0.515) inset;
+        }
+
+        input{
+            font-family: GT eesti display trial;
+            padding: 1.5%;
+            border:1.5px black solid;
+            background-color: #fffef7;
+            box-shadow: 0px 0px .5px .5px rgba(0, 0, 0, 0.515) inset;
+            width: 24em;
+        }
+
+        #time_box{
+            display: flex;
+            flex-direction: row;
+            align-items: left; 
+            width: 100%; 
+            max-width: 400px;
+            line-height: 2.5;
+        }
+
+        label {
+            font-family: copyright Klim Type Foundry; 
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            width: auto;
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .image_preview {
+            display: none;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .image_preview img {
+            max-width: 100%;
+        }
+
+        h1{
+            font-family: copyright Klim Type Foundry; 
+        }
+
+        .introBreak{
+            width: 8%;
+            border: 6px solid #f8f1e0;
+            margin-bottom: 0%;
+        }
+
+        .mainContain{
+        background-image: url("../images/uploadBanner.png");
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position-x: 30%;
+          background-position-y: 0%;
+        }
+
+        hr{
+            margin-bottom: 3%;
+        }
+
+        .selectize-input{
+            border: 2px solid black !important;
+            background: #fffef7 !important;
+            display: inline-block;
+            width: 25em;
+            position: relative;
+            z-index: 1;
+            box-shadow:inset 0px;
+            border-radius: 0% !important;
+            box-shadow: inset 0px !important;
+            font-family: GT eesti display trial !important;
+            text-decoration: none !important;
+            color: black !important;
+            padding: 1.5em;
+        }
+
+        .submitButton{
+            font-family: GT eesti display trial;
+            padding: 1% !important;
+            border: 1px #c6a559 solid !important;
+            color: #fffef7;
+            background: #c6a559;
+            width: 24em;
+            border-radius: 0px !important;
+            text-transform: uppercase;
+            margin-top: 0% !important;
+            margin-bottom: 8%;
+        }
+
+        .submitButton:hover{
+            color: #c6a559;
+            background: #f8f1e0;
+            box-shadow: inset 1px #c6a559 !important;
+        }
+
+    </style>
+    
+</head>
+<body>
+    <header>
+        <!-- Navbar -->
+        <div class="navContainer">
+            <a href="./login.php"><img src="../images/logo.png" class= "logo" 
+            style="margin-left: 10%; width:10%; filter: drop-shadow(1.5px 2.5px 0px rgba(0,0,0,0.15));"></a>
+            
+            <div style="margin-top: 6%; display: inline-block; width: 100%; margin-left: -1%;">
+               
+              <a href="./account.php"><img src="../images/myAccount.png" class= "logo" 
+                style="margin-top: -0.8%; margin-left: 25%; height:4.5%; filter: drop-shadow(.7px .7px 0px rgba(0,0,0,0.15));"></a>    
+              <a href="./RecipeBook.php"><img src="../images/favoritesIcon.png" class= "logo" 
+                style="margin-top: -0.8%; margin-left: 35%; height:4.5%; filter: drop-shadow(.7px .7px 0px rgba(0,0,0,0.15));"></a>
+              <a href="./search.html"><img src="../images/searchIcon2.png" class= "logo" 
+                style="margin-top: -0.75%; margin-left: 45%; height:4.5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+              <a href="./IngredientSearch.php"><img src="../images/searchIngredients.png" class= "logo" 
+                style="margin-top: -0.75%; margin-left: 56%; height:4.5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+              <a href="MakeRecipe.html"><img src="../images/makeRecipes.png" class= "logo" 
+                style="margin-top: -0.75%; margin-left: 71%; height:4.5%; filter: drop-shadow(.5px .5px 0px rgba(0,0,0,0.15));"></a>
+              
+                <div style="margin-left: 84%; margin-top: -.3%;">
+                  <a href="./logout.php" class="navButton"><b>SIGN OUT</b></a>
+                </div>
+          </div>
+          
+        </div>
+      </header>
+
+        <div class="mainContain" style="margin-top: 18%; text-align: center;">
+            <form action='MakeRecipe.php' method='post' enctype='multipart/form-data'>
+                <h1 style="font-size: 2.5em; text-align: center;font-family: copyright Klim Type Foundry; margin-bottom:.5%;">
+                <b>Make your own
+                <span style="font-weight:lighter !important; font-family:Britannic Bold; font-size: 1em;">SOUS-CHEF</span> 
+                recipe!</b></h1>      
+                
+                <h2 style="font-family: GT eesti display trial; font-size: 1.2em; margin-top: 0%;">
+                Become your friends' best culinary partner.</h2>
+                <hr class="introBreak"><br><br>      
+                
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" placeholder="EXAMPLE: Grandma's Sugar Cookies" required>
+        
+                    <label for="ingredients">
+                        <br><hr style="width: 120%; margin-left: -10%; border: .8px solid #c6a559;"><br>
+                        Ingredients</label><br>
+<!-- IGNORE INDENT -->
+<textarea id="ingredients" name="ingredients" 
+placeholder="ENTER EACH INGREDIENT ON A NEW LINE.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+EXAMPLE: 
+2 Cups All Purpose Flour 
+3 Eggs
+2 Tablespoons Baking Powder" required></textarea>
+<!-- IGNORE INDENT -->
+        <label for="instructions">
+            <br><hr style="width: 120%; margin-left: -10%; border: .8px solid #c6a559;"><br>
+        Instructions</label><br>
+
+        <textarea id="instructions" name="instructions" 
+        required placeholder="ENTER EACH INSTRUCTION ON A NEW LINE.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+EXAMPLE:
+Preheat oven to 350 degrees 
+Whisk together ingredients
+Bake for 30 minutes"></textarea>
+        
+        <label for="total_time">
+            <br><hr style="width: 120%; margin-left: -10%; border: .8px solid #c6a559;"><br>
+        Total Time</label><br>
+
+        <div id="time_box" style="margin-left: 19%; margin-top: 1%;">
+            <input type="number" id="total_time" name="total_time" placeholder="5" step="5" min="0" required
+            style="font-weight: bolder;">
+            <span style="font-family: GT eesti display trial; font-size: 1em;">
+            &nbsp;MINUTES</span>
+        </div>
+
+        <label for="health_labels">
+        <hr style="width: 120%; margin-left: -10%; border: .8px solid #c6a559;">
+        <br>Diets</label>
+
+        <select multiple id="health_labels" name="health_labels[]" placeholder="EXAMPLE: Shellfish">
+            <option value="Gluten Free">Gluten Free</option>
+            <option value="Ketogenic">Ketogenic</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
+            <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Pescetarian">Pescetarian</option>
+            <option value="Paleo">Paleo</option>
+            <option value="Primal">Primal</option>
+        </select>
+
+        <br><hr style="width: 31em; margin-left: 32.5%; border: .8px solid #c6a559;">
+
+            
+        <label for="meal_type">Meal Types</label>
+        <select multiple id="meal_type" name="meal_type[]" placeholder="EXAMPLE: Dessert">
+            <option value="Main Course">Main Course</option>
+            <option value="Side Dish">Side Dish</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Appetizer">Appetizer</option>
+            <option value="Salad">Salad</option>
+            <option value="Bread">Bread</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Soup">Soup</option>
+            <option value="Beverage">Beverage</option>
+            <option value="Sauce">Sauce</option>
+            <option value="Marinade">Marinade</option>
+            <option value="Fingerfood">Fingerfood</option>
+            <option value="Snack">Snack</option>
+            <option value="Drink">Drink</option>
+        </select>
+
+<br><hr style="width: 31em; margin-left: 32.5%; border: .8px solid #c6a559;">
+
+    
+        <label for="cuisine_type">Cuisine Types</label>
+        <select multiple id="cuisine_type" name="cuisine_type[]" placeholder="EXAMPLE: Italian">
+            <option value="African">African</option>
+            <option value="American">American</option>
+            <option value="British">British</option>
+            <option value="Cajun">Cajun</option>
+            <option value="Caribbean">Caribbean</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Eastern European">Eastern European</option>
+            <option value="European">European</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Greek">Greek</option>
+            <option value="Indian">Indian</option>
+            <option value="Irish">Irish</option>
+            <option value="Italian">Italian</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Jewish">Jewish</option>
+            <option value="Korean">Korean</option>
+            <option value="Latin American">Latin American</option>
+            <option value="Mediterranean">Mediterranean</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Middle Eastern">Middle Eastern</option>
+            <option value="Nordic">Nordic</option>
+            <option value="Southern">Southern</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Thai">Thai</option>
+            <option value="Vietnamese">Vietnamese</option>
+        </select>
+
+            <br><hr style="width: 31em; margin-left: 32.5%; border: .8px solid #c6a559;">
+
+            <input type="submit" class="submitButton" value="UPLOAD RECIPE">
+        </form>
+    </div>
+
+
+     
+
+    <div class="footer" style="z-index:0; background-color: #fffef7;">
+        <div class="bottomFooter">
+          <img src="../images/logo.png" class="footerLogo"
+          style="width:10em; filter: drop-shadow(1.5px 2.5px 0px rgba(0,0,0,0.15));">
+          <!-- filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.15)); -->
+      </div>
+        <div class="mainFooter" style="margin-top: -3%;">
+            <div style="margin-top: 6%; display: inline-block;">
+              <a href="./account.php" class="navButton"><b>MANAGE ACCOUNT</b></a>
+          <a href="./RecipeBook.php" class="navButton"><b>RECIPE HUB</b></a>
+          <a href="./search.html" class="navButton"><b>SEARCH RECIPES</b></a>
+          <a href="./IngredientSearch.php" class="navButton"><b>INGREDIENTS SEARCH</b></a>
+          <a href="./index.php" class="navButton"><b>ABOUT US</b></a>
+           </div>
+        </div> <br>
+        <div class="bottomFooter">
+          <div class="footerCol">
+            <div class="footer-icons">
+                <img src="../images/fbLogo.png"
+                style="width:2.5em; opacity: 0.9;">
+                <img src="../images/igLogo.png" 
+                style="width:2.5em; opacity: 0.9;">
+                <img src="../images/pinterestLogo.png" 
+                style="width:2.5em; opacity: 0.9;">
+                <img src="../images/twitterLogo.png" 
+                style="width:2.5em; opacity: 0.9;">
+            </div>
+          </div>
+        </div>
+    
+        <div class="bottomFooter copyright">
+            <h4 style="text-align: center; font-family: GT eesti display trial; font-size: .6em;">
+              COPYRIGHT 2023 - SOUS-CHEF LLC. <br>
+              ALL RIGHTS RESERVED.</h4>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $("select").selectize($('option'));
+        });
+
+        // function upload_recipe(){
+            
+        //     var xhttp = new XMLHttpRequest();
+        //     xhttp.onreadystatechange = function() {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //         alert("Your Recipe Has Been Uploaded!");
+        //     }
+        //     };
+        //     xhttp.open("POST", "MakeRecipe.php", true);
+        //     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     console.log($('#health_labels').val());
+        //     xhttp.send("title=" + $('#title').val() + "&ingredients=" + $('#ingredients').val() + "&instructions=" + $('#instructions').val() + "&total_time=" + $('#total_time').val() + "&health_labels=" + $('#health_labels').val() + "&meal_type=" + $('#meal_type').val() + "&cuisine_type=" + $('#cuisine_type').val());
+        // }
+   
+</script>
+<script>
+    $(document).ready(function() {
+      $.ajax({
+        url: "check_session.php",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+          if (response.status === "success") {
+            // Session variable is set, do nothing
+          } else {
+            // Session variable is not set, redirect to login page
+            window.location.href = "logout.php";
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
