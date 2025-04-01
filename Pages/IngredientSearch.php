@@ -322,7 +322,7 @@ if (isset($_SESSION["user_id"])) {
       }
         function find_ingredient_recipes(){
           offset = 0;
-            const api_key = "577c8e10b78544e3a55361a053215741";
+            const api_key = "API_KEY";
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = "";
 
@@ -371,7 +371,7 @@ if (isset($_SESSION["user_id"])) {
 
     function more_ingredient_recipes(){
       offset++;
-        const api_key = "577c8e10b78544e3a55361a053215741";
+        const api_key = "API_KEY";
         const resultsDiv = document.getElementById('results');
 
         var user_ingredients = $(".ingredient_bubble").map(function() {
