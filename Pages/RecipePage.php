@@ -296,7 +296,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         function get_recipe_info(id){
             console.log(id);
-            const api_key = "577c8e10b78544e3a55361a053215741";
+            const api_key = "API_KEY";
             var request = `https://api.spoonacular.com/recipes/${id}/information?&apiKey=${api_key}`;
             console.log(request);
 
